@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Navbar from "./Employee/Navbar";
 import LeaveBalance from "./Employee/LeaveBalance";
@@ -94,6 +95,7 @@ function App() {
       </main>
     </div>
   );
+
 }
 
 export default App;
