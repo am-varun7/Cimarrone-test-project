@@ -21,4 +21,6 @@ public class EmployeeResponseDTO {
     private Role role;
 
     private Long managerId;
+
+    private String managerName;
 }

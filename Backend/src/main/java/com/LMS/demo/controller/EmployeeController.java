@@ -2,6 +2,7 @@ package com.LMS.demo.controller;
 
 import com.LMS.demo.dto.EmployeeResponseDTO;
 import com.LMS.demo.dto.LeaveApplyRequestDTO;
+import com.LMS.demo.dto.LeaveBalanceDTO;
 import com.LMS.demo.dto.LeaveResponseDTO;
 import com.LMS.demo.security.CustomUserPrincipal;
 import com.LMS.demo.service.EmployeeService;
@@ -75,5 +76,18 @@ public class EmployeeController {
     ) {
 
         return leaveService.cancelLeave(id);
+    }
+
+
+
+    @GetMapping("/leave/balance")
+    public LeaveBalanceDTO getLeaveBalance(
+            @AuthenticationPrincipal
+            CustomUserPrincipal user
+    ) {
+
+        return leaveService.getLeaveBalance(
+                user.getUserId()
+        );
     }
 }

@@ -112,6 +112,24 @@ public EmployeeResponseDTO createEmployee(
             Employee employee
     ) {
 
+        String managerName = "Not Assigned";
+
+        Long managerId =
+                employee.getManagerId();
+
+        if(managerId != null){
+
+            Employee manager =
+                    employeeRepository
+                            .findById(managerId)
+                            .orElse(null);
+
+            if(manager != null){
+                managerName =
+                        manager.getName();
+            }
+        }
+
         return EmployeeResponseDTO.builder()
                 .id(employee.getId())
                 .name(employee.getName())
@@ -120,6 +138,7 @@ public EmployeeResponseDTO createEmployee(
                 .salary(employee.getSalary())
                 .role(employee.getRole())
                 .managerId(employee.getManagerId())
+                .managerName(managerName)
                 .build();
     }
 }

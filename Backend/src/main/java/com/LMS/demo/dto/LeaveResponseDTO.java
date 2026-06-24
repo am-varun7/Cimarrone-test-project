@@ -21,4 +21,6 @@ public class LeaveResponseDTO {
     private LocalDate appliedDate;
 
     private LeaveStatus status;
+
+    private long days;
 }

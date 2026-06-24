@@ -1,6 +1,7 @@
 package com.LMS.demo.service.impl;
 
 import com.LMS.demo.dto.LeaveApplyRequestDTO;
+import com.LMS.demo.dto.LeaveBalanceDTO;
 import com.LMS.demo.dto.LeaveResponseDTO;
 import com.LMS.demo.entity.Employee;
 import com.LMS.demo.entity.LeaveRecord;
@@ -163,6 +164,57 @@ public class LeaveServiceImpl implements LeaveService {
                 .toList();
     }
 
+    @Override
+    public LeaveBalanceDTO getLeaveBalance(
+            Long employeeId
+    ) {
+
+        int currentYear =
+                LocalDate.now().getYear();
+
+        List<LeaveRecord> approvedLeaves =
+                leaveRepository
+                        .findByEmployee_IdAndStatus(
+                                employeeId,
+                                LeaveStatus.APPROVED
+                        );
+
+        long usedLeaves =
+                approvedLeaves.stream()
+
+                        .filter(leave ->
+                                leave.getStartDate()
+                                        .getYear()
+                                        == currentYear
+                        )
+
+                        .mapToLong(leave ->
+                                LeaveUtils
+                                        .calculateWorkingDays(
+                                                leave.getStartDate(),
+                                                leave.getEndDate()
+                                        )
+                        )
+
+                        .sum();
+
+        long totalLeaves = 20;
+
+        long remainingLeaves =
+                totalLeaves - usedLeaves;
+
+        return LeaveBalanceDTO.builder()
+                .total(totalLeaves)
+                .used(usedLeaves)
+                .remaining(
+                        Math.max(
+                                remainingLeaves,
+                                0
+                        )
+                )
+                .build();
+    }
+
     private LeaveResponseDTO mapToDTO(
             LeaveRecord leave
     ) {
@@ -174,6 +226,12 @@ public class LeaveServiceImpl implements LeaveService {
                 .endDate(leave.getEndDate())
                 .appliedDate(leave.getAppliedDate())
                 .status(leave.getStatus())
+                .days(
+                        LeaveUtils.calculateWorkingDays(
+                                leave.getStartDate(),
+                                leave.getEndDate()
+                        )
+                )
                 .build();
     }
 }

@@ -1,6 +1,7 @@
 package com.LMS.demo.service;
 
 import com.LMS.demo.dto.LeaveApplyRequestDTO;
+import com.LMS.demo.dto.LeaveBalanceDTO;
 import com.LMS.demo.dto.LeaveResponseDTO;
 import com.LMS.demo.entity.enums.LeaveStatus;
 
@@ -23,6 +24,9 @@ public interface LeaveService {
     );
 
     List<LeaveResponseDTO> getEmployeeLeaves(
+            Long employeeId
+    );
+    LeaveBalanceDTO getLeaveBalance(
             Long employeeId
     );
 }

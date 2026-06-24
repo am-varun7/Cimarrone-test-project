@@ -16,11 +16,13 @@ const LeaveHistory = ({ leaves }) => {
     );
   }
 
+  
+
   return (
     <div>
       <h3 className="text-base font-semibold text-gray-800 mb-3">Leave History</h3>
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto max-h-96 overflow-y-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
@@ -39,7 +41,7 @@ const LeaveHistory = ({ leaves }) => {
                   <td className="px-4 py-3 text-gray-600">{leave.endDate}</td>
                   <td className="px-4 py-3">
                     <span className="inline-block bg-gray-100 text-gray-700 text-xs font-semibold px-2 py-0.5 rounded-full">
-                      {leave.days}d
+                      {leave.days} day{leave.days > 1 ? "s" : ""}
                     </span>
                   </td>
                   <td className="px-4 py-3">

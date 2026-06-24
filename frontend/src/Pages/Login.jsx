@@ -33,15 +33,19 @@ export default function Login() {
 
     console.log(data);
 
+
+    // Store token separately
     localStorage.setItem(
       "token",
       data.token
     );
 
+    // Store role separately (optional)
     localStorage.setItem(
-      "user",
-      JSON.stringify(data)
+      "role",
+      data.role
     );
+    
 
     if (data.role === "MANAGER") {
       navigate("/manager/dashboard");
