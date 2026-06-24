@@ -2,7 +2,14 @@ import { useState } from "react";
 import { Avatar, EmployeeModal } from "./SharedComponents";
 import { deptColor } from "../Data/mockData";
 
-const EMPTY_FORM = { name: "", email: "", department: "", salary: "", role: "Employee" };
+const EMPTY_FORM = {
+  name: "",
+  email: "",
+  password: "",
+  department: "",
+  salary: "",
+  role: "Employee"
+};
 
 export default function ManageStaffPage({ employees, onSave }) {
   const [modal, setModal] = useState({ open: false, mode: "create", data: null });
@@ -14,9 +21,21 @@ export default function ManageStaffPage({ employees, onSave }) {
   };
 
   const openEdit = (emp) => {
-    setForm({ name: emp.name, email: emp.email, department: emp.department, salary: emp.salary, role: emp.role });
-    setModal({ open: true, mode: "edit", data: emp });
-  };
+  setForm({
+    name: emp.name,
+    email: emp.email,
+    password: "",
+    department: emp.department,
+    salary: emp.salary,
+    role: emp.role
+  });
+
+  setModal({
+    open: true,
+    mode: "edit",
+    data: emp
+  });
+};
 
   const closeModal = () => setModal({ open: false, mode: "create", data: null });
 

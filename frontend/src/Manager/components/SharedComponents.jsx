@@ -16,19 +16,51 @@ export function Avatar({ initials, idx, size = "md" }) {
     </div>
   );
 }
-
+    
 // ─── Employee Create / Edit Modal ─────────────────────────────────────────────
 const FORM_FIELDS = [
-  { label: "Full name",         key: "name",       type: "text",   placeholder: "e.g. Arjun Sharma"  },
-  { label: "Email address",     key: "email",      type: "email",  placeholder: "e.g. arjun@corp.com" },
-  { label: "Department",        key: "department", type: "text",   placeholder: "e.g. Engineering"   },
-  { label: "Annual salary (₹)", key: "salary",     type: "number", placeholder: "e.g. 85000"         },
+  {
+    label: "Full Name",
+    key: "name",
+    type: "text",
+    placeholder: "Enter employee name"
+  },
+  {
+    label: "Email Address",
+    key: "email",
+    type: "email",
+    placeholder: "Enter email address"
+  },
+  {
+    label: "Password",
+    key: "password",
+    type: "password",
+    placeholder: "Enter password"
+  },
+  {
+    label: "Department",
+    key: "department",
+    type: "text",
+    placeholder: "Engineering"
+  },
+  {
+    label: "Salary",
+    key: "salary",
+    type: "number",
+    placeholder: "50000"
+  }
 ];
+
+
 
 export function EmployeeModal({ modal, form, setForm, onSave, onClose }) {
   if (!modal.open) return null;
 
   const isCreate = modal.mode === "create";
+  const fieldsToRender =
+  isCreate
+    ? FORM_FIELDS
+    : FORM_FIELDS.filter(field => field.key !== "password");
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
@@ -57,7 +89,7 @@ export function EmployeeModal({ modal, form, setForm, onSave, onClose }) {
 
         {/* Form fields */}
         <div className="px-6 py-5 space-y-4">
-          {FORM_FIELDS.map((f) => (
+          {fieldsToRender.map((f) => (
             <div key={f.key}>
               <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
                 {f.label}
