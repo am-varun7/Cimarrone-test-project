@@ -40,4 +40,15 @@ public class GlobalExceptionHandler {
                 ex.getMessage()
         );
     }
+
+    @ExceptionHandler(BusinessException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String,String> handleBusinessException(
+            BusinessException ex
+    ){
+        return Map.of(
+                "message",
+                ex.getMessage()
+        );
+    }
 }
