@@ -11,7 +11,9 @@ import com.LMS.demo.repository.LeaveRecordRepository;
 import com.LMS.demo.service.LeaveService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
+import com.LMS.demo.exception.BusinessException;
+import com.LMS.demo.util.LeaveConstants;
+import com.LMS.demo.util.LeaveUtils;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -35,11 +37,59 @@ public class LeaveServiceImpl implements LeaveService {
                                 "Employee not found"
                         ));
 
+        LocalDate today = LocalDate.now();
+
+
+        if (request.getStartDate().isBefore(today)) {
+            throw new BusinessException(
+                    "Cannot apply leave for past dates"
+            );
+        }
+
+        if (request.getEndDate().isBefore(
+                request.getStartDate())) {
+
+            throw new BusinessException(
+                    "End date cannot be before start date"
+            );
+        }
+
+        List<LeaveRecord> approvedLeaves =
+                leaveRepository
+                        .findByEmployee_IdAndStatus(
+                                employeeId,
+                                LeaveStatus.APPROVED
+                        );
+
+        long totalApprovedDays =
+                approvedLeaves.stream()
+                        .mapToLong(leave ->
+                                LeaveUtils.calculateWorkingDays(
+                                        leave.getStartDate(),
+                                        leave.getEndDate()
+                                ))
+                        .sum();
+
+        long requestedDays =
+                LeaveUtils.calculateWorkingDays(
+                        request.getStartDate(),
+                        request.getEndDate()
+                );
+
+        if (totalApprovedDays + requestedDays >
+                LeaveConstants.MAX_APPROVED_LEAVES) {
+
+            throw new BusinessException(
+                    "Maximum leave limit exceeded. Remaining leave balance: "
+                            + (LeaveConstants.MAX_APPROVED_LEAVES - totalApprovedDays)
+            );
+        }
+
         LeaveRecord leave = LeaveRecord.builder()
                 .reason(request.getReason())
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
-                .appliedDate(LocalDate.now())
+                .appliedDate(today)
                 .status(LeaveStatus.PENDING)
                 .employee(employee)
                 .build();
@@ -49,6 +99,7 @@ public class LeaveServiceImpl implements LeaveService {
 
         return mapToDTO(savedLeave);
     }
+
 
     @Override
     public LeaveResponseDTO cancelLeave(

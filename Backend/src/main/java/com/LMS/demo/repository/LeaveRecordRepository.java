@@ -16,4 +16,9 @@ public interface LeaveRecordRepository extends JpaRepository<LeaveRecord, Long> 
             Long employeeId,
             LeaveStatus status
     );
+
+    List<LeaveRecord> findByEmployee_IdAndStatus(
+            Long employeeId,
+            LeaveStatus status
+    );
 }
