@@ -1,10 +1,8 @@
-// src/api/api.js
-
-const BASE_URL = "http://localhost:8080";
-
-export const getAuthHeaders = () => ({
-  "Content-Type": "application/json",
-  Authorization: `Bearer ${localStorage.getItem("token")}`,
-});
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default BASE_URL;
+
+export const getHeaders = () => ({
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+});
