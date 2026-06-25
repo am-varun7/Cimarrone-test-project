@@ -53,6 +53,10 @@ public class SecurityConfig {
                                 ).permitAll()
 
                                 .requestMatchers(
+                                        "/api/profile"
+                                ).hasAnyRole("EMPLOYEE", "MANAGER")
+
+                                .requestMatchers(
                                         "/api/employee/**"
                                 ).hasRole("EMPLOYEE")
 

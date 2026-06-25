@@ -21,16 +21,7 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
     private final LeaveService leaveService;
-    @GetMapping("/profile")
-    public EmployeeResponseDTO getProfile(
-            @AuthenticationPrincipal
-            CustomUserPrincipal user
-    ) {
 
-        return employeeService.getProfile(
-                user.getUserId()
-        );
-    }
     
     @GetMapping("/leave/history")
     public List<LeaveResponseDTO> getLeaveHistory(

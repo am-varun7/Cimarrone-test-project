@@ -8,7 +8,7 @@ const getHeaders = () => ({
 export const getProfile = async () => {
 
   const response = await fetch(
-    `${BASE_URL}/api/employee/profile`,
+    `${BASE_URL}/api/profile`,
     {
       headers: getHeaders(),
     }

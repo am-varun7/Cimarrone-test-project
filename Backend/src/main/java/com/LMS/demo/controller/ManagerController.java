@@ -25,16 +25,6 @@ public class ManagerController {
     private final LeaveService leaveService;
 
     
-    @GetMapping("/profile")
-    public EmployeeResponseDTO getProfile(
-            @AuthenticationPrincipal
-            CustomUserPrincipal user
-    ) {
-
-        return employeeService.getProfile(
-                user.getUserId()
-        );
-    }
 
     @GetMapping("/employees")
     public List<EmployeeResponseDTO> getEmployees(

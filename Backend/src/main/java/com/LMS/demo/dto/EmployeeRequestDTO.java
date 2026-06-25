@@ -18,5 +18,4 @@ public class EmployeeRequestDTO {
 
     private Role role;
 
-    private Long managerId;
 }

@@ -100,7 +100,6 @@ public EmployeeResponseDTO createEmployee(
         employee.setDepartment(request.getDepartment());
         employee.setSalary(request.getSalary());
         employee.setRole(request.getRole());
-        employee.setManagerId(request.getManagerId());
 
         Employee updatedEmployee =
                 employeeRepository.save(employee);
