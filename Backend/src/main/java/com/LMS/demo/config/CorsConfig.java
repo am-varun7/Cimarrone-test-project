@@ -21,7 +21,7 @@ public class CorsConfig {
         CorsConfiguration configuration =
                 new CorsConfiguration();
 
-        
+
 
         configuration.setAllowedMethods(
                 List.of(
